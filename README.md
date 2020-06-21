@@ -37,58 +37,5 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-## TODO
-- session creation?
-- rename hadlers to middleware
-
-- validate response e.g. json
-- validate response body is not empty
-
-- implement
-- jsnon schema validator middleware
-- retry middleware
-- proper error validation
-- escape values from the client. make sure cannot attack on different ways
-- make it similar to AWS-SDK-GO
-- validate response on deletion ?? NO_CONTENT=204
-- error handling (e.g. record not exists, missing values, no query parameter)
-- when not found, just say about it
-
-### Endpoints
-- /v1/health
-- GET    /v1/organisation/accounts/:id
-- DELETE /v1/organisation/accounts/:id
-- GET    /v1/organisation/accounts
-- POST   /v1/organisation/accounts
-
-###
-
-country
-bank_id
-bic
-
-```
-Country code: GB
-Bank ID: required, 6 characters, UK sort code
-BIC: required
-Bank ID Code: required, has to be GBDSC
-Account Number: optional, 8 characters, generated if not provided
-IBAN: Generated if not provided
-```
-
-## Test
-
--
-not able to create account with same id
-- add errors as from here https://github.com/aws/aws-sdk-go/tree/master/aws
-
- // defer r.HTTPResponse.Body.Close()
 
 
-
-// TODO: is this really required here?
-  // Method interface {
-  //   Get(path string) (*Response, error)
-  //   Post(path, body io.Reader) (*Response, error)
-  //   Delete(id string) (*Response, error)
-  // }
