@@ -31,13 +31,17 @@ in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organ
 ```
 $ make help 
 services                       Run services
-run-int-tests                  Integration tests
-run-tests                      Run tests
-build                          Build & Tidy
+e2e-tests                      Integration tests
+unit-tests                     Run tests
+build                          Tidy Up
 lint                           Run linters
 validate                       Validate files with pre-commit hooks 
 ```
 <!-- END makefile-doc -->
+
+# Technical decisions
+
+
 
 ### Should
 - Client library should be written in Go

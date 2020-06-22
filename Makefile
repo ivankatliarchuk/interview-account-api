@@ -19,20 +19,19 @@ docs:
 services: ## Run services
 	@docker-compose up
 
-run-int-tests: ## Integration tests
-	@ginkgo -cover -failFast -progress --reportPassed integration
+e2e-tests: ## Integration tests
+	@ginkgo -cover -failFast -progress --reportPassed tests/e2e
 
-run-tests: ## Run tests
+unit-tests: ## Run tests
 	@go test -race -v -cover interview-accountapi/cmd/...
 
-build: ## Build & Tidy
+build: ## Tidy Up
 	@go mod tidy
-	@go build
 
 lint: ## Run linters
 	@docker run --rm -v ${PWD}:/app -w /app golangci/golangci-lint:$(GOLANG_CI_LINT) golangci-lint run -v
 
 validate: ## Validate files with pre-commit hooks
 	@pre-commit run --all-files
-	
+
 .PHONE: docs help hooks validate run build
