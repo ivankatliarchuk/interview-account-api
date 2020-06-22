@@ -13,4 +13,3 @@ func (m *MockLogger) Debug(...interface{}) {
   m.DebugExecuted++
 }
 func (m *MockLogger) Error(...interface{}) {}
-

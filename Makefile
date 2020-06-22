@@ -32,4 +32,7 @@ build: ## Build & Tidy
 lint: ## Run linters
 	@docker run --rm -v ${PWD}:/app -w /app golangci/golangci-lint:$(GOLANG_CI_LINT) golangci-lint run -v
 
+validate: ## Validate files with pre-commit hooks
+	@pre-commit run --all-files
+	
 .PHONE: docs help hooks validate run build

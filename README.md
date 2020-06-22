@@ -4,6 +4,41 @@
 This exercise has been designed to be completed in 4-8 hours. The goal of this exercise is to write a client library
 in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organisation-accounts) service.
 
+## Project Structure
+
+```
+    .
+    ├── LICENSE
+    ├── Makefile
+    ├── README.md
+    ├── cmd
+    │   ├── services
+    │   │   └── accounts          # accounts services
+    │   │   └── health            # api health services
+    │   └── transport             # data transport layer
+    ├── docker-compose.yml
+    ├── go.mod
+    ├── go.sum
+    ├── integration                 # integration tests
+    ├── pkg
+    │   └── version.go
+    └── scripts
+```
+
+## Awailable Commands
+
+<!-- START makefile-doc -->
+```
+$ make help 
+services                       Run services
+run-int-tests                  Integration tests
+run-tests                      Run tests
+build                          Build & Tidy
+lint                           Run linters
+validate                       Validate files with pre-commit hooks 
+```
+<!-- END makefile-doc -->
+
 ### Should
 - Client library should be written in Go
 - Document your technical decisions
@@ -36,6 +71,3 @@ You may obtain a copy of the License at
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-
-
