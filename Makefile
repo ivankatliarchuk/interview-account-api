@@ -19,9 +19,6 @@ docs:
 services: ## Run services
 	@docker-compose up
 
-run: ## Run it
-	@go run main.go
-
 run-int-tests: ## Integration tests
 	@ginkgo -cover -failFast -progress --reportPassed integration
 

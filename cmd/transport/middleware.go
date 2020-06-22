@@ -27,10 +27,8 @@ func UnmarshalDiscardBody(r *Request) {
   _ = r.HTTPResponse.Body.Close()
 }
 
-// fmt.Println("size>> ",r.Operation.Paginator.Size)
-// fmt.Println(">>> ", r.HTTPRequest.URL.RequestURI())
 func Paginate(r *Request) {
-  if r.Operation.Paginator != nil {
+  if r.HTTPRequest.Method == http.MethodGet && r.Operation.Paginator != nil {
     url := r.HTTPRequest.URL.Query()
     url.Add("page[number]", r.Operation.Number)
     url.Add("page[size]", strconv.Itoa(r.Operation.Size))
@@ -77,17 +75,20 @@ func SetBaseHeadersMiddleware(r *Request) {
   r.Config.Logger.Debug("middleware: RequestSetHeadersMiddleware set headers.", r.Operation.HTTPMethod)
   r.HTTPRequest.Header.Set("User-Agent", "accounts-api-sdk-go")
   switch r.Operation.HTTPMethod {
-  case http.MethodGet:
-  case http.MethodDelete:
-    r.HTTPRequest.Header.Set("Accept", "application/json")
+  case
+    http.MethodGet,
+    http.MethodDelete:
+    r.HTTPRequest.Header.Set("Accept", "application/vnd.api+json")
     return
-  case http.MethodPost:
-  case http.MethodPut:
-    r.HTTPRequest.Header.Set("Accept", "application/json")
-    r.HTTPRequest.Header.Set("Content-Type", "application/json")
+  case
+    http.MethodPost,
+    http.MethodPut:
+    r.HTTPRequest.Header.Set("Accept", "application/vnd.api+json")
+    r.HTTPRequest.Header.Set("Content-Type", "application/vnd.api+json")
     return
   default:
     return
+
   }
 }
 

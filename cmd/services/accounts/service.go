@@ -25,50 +25,42 @@ func New(t transport.Session) *Service {
 
 func (c *Service) Fetch(id string) (*Account, error) {
   c.GetLogger().Debug("accounts-service: Fetch() executing")
-  req, out := c.fetch(id)
-  if err := req.Send(); err != nil {
-    req.Error = err
+  out, err := c.fetch(id)
+  if err != nil {
     return nil, err
   }
-  return &out.Data, nil
+  return out, nil
 }
 
 func (c *Service) Create(a *Account) (*Account, error) {
   c.GetLogger().Debug("accounts-service: Create() executing")
-  req, out := c.create(a)
-  if err := req.Send(); err != nil {
-    req.Error = err
+  result, err := c.create(a)
+  if err != nil {
     return nil, err
   }
-  return &out.Data, nil
+  return result, nil
 }
 
-func (c *Service) Delete(id string, version int) (err error) {
+func (c *Service) Delete(id string, version int) error {
   c.GetLogger().Debug("accounts-service: Delete() executing")
-  req := c.delete(id, version)
-  if err := req.Send(); err != nil {
-    req.Error = err
-    return err
-  }
-  return nil
+  err := c.delete(id, version)
+  return err
 }
 
 func (c *Service) List() ([]Account, error) {
   c.GetLogger().Debug("accounts-service: Paginate() executing")
-  req, out := c.list()
-  if err := req.Send(); err != nil {
-    req.Error = err
+  result, err := c.list()
+  if err != nil {
     return nil, err
   }
-  return out.Data, nil
+  return result.Data, nil
 }
 
 func (c *Service) Paginate(number string, size int) ([]Account, error) {
   c.GetLogger().Debug("accounts-service: Paginate() executing")
-  req, out := c.paginate(number, size)
-  if err := req.Send(); err != nil {
-    req.Error = err
+  result, err := c.paginate(number, size)
+  if err != nil {
     return nil, err
   }
-  return out.Data, nil
+  return result.Data, nil
 }

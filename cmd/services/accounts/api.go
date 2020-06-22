@@ -10,11 +10,11 @@ import (
 const name = "accounts"
 
 type Api interface {
-  fetch(id string) (req *transport.Request, out *Response)
-  list() (req *transport.Request, out *ResponsePaginate)
-  paginate(number string, size int) (req *transport.Request, out *ResponsePaginate)
-  delete(id string, version int) (req *transport.Request)
-  create(a *Account) (req *transport.Request, out *Response)
+  fetch(id string) (out *Account, err error)
+  list() (out *ResponsePaginate, err error)
+  paginate(number string, size int) (out *ResponsePaginate, err error)
+  delete(id string, version int) error
+  create(a *Account) (*Account, error)
 }
 
 type (
@@ -37,7 +37,7 @@ type (
   }
 )
 
-func (c *Service) fetch(id string) (req *transport.Request, out *Response) {
+func (c *Service) fetch(id string) (out *Account, err error) {
   c.GetLogger().Debug("accounts-api: fetch() executing")
   op := &transport.Operation{
     Name:       name,
@@ -45,13 +45,18 @@ func (c *Service) fetch(id string) (req *transport.Request, out *Response) {
     HTTPPath:   fmt.Sprintf("/organisation/accounts/%s", id),
   }
 
-  out = &Response{}
-  req = c.NewRequest(op, nil, out)
+  data := &Response{}
+  req := c.NewRequest(op, nil, data)
+  if err := req.Send(); err != nil {
+    req.Error = err
+    return nil, err
+  }
+  out = &data.Data
   c.GetLogger().Debug("accounts-api: fetch() executing")
   return
 }
 
-func (c *Service) list() (req *transport.Request, out *ResponsePaginate) {
+func (c *Service) list() (out *ResponsePaginate, err error) {
   c.GetLogger().Debug("accounts-api: list() executing")
   op := &transport.Operation{
     Name:       name,
@@ -60,12 +65,16 @@ func (c *Service) list() (req *transport.Request, out *ResponsePaginate) {
   }
 
   out = &ResponsePaginate{}
-  req = c.NewRequest(op, nil, out)
+  req := c.NewRequest(op, nil, &out)
+  if err := req.Send(); err != nil {
+    req.Error = err
+    return nil, err
+  }
   c.GetLogger().Debug("accounts-api: list() executing")
-  return
+  return out, nil
 }
 
-func (c *Service) paginate(number string, size int) (req *transport.Request, out *ResponsePaginate) {
+func (c *Service) paginate(number string, size int) (out *ResponsePaginate, err error) {
   c.GetLogger().Debug("accounts-api: list() executing")
   op := &transport.Operation{
     Name:       name,
@@ -75,12 +84,16 @@ func (c *Service) paginate(number string, size int) (req *transport.Request, out
   }
 
   out = &ResponsePaginate{}
-  req = c.NewRequest(op, nil, out)
+  req := c.NewRequest(op, nil, out)
+  if err := req.Send(); err != nil {
+    req.Error = err
+    return nil, err
+  }
   c.GetLogger().Debug("accounts-api: list() executing")
-  return
+  return out, nil
 }
 
-func (c *Service) create(a *Account) (req *transport.Request, out *Response) {
+func (c *Service) create(a *Account) (*Account, error) {
   c.GetLogger().Debug("accounts-api: create() executing")
   op := &transport.Operation{
     Name:       name,
@@ -88,13 +101,17 @@ func (c *Service) create(a *Account) (req *transport.Request, out *Response) {
     HTTPPath:   "/organisation/accounts",
   }
 
-  out = &Response{}
-  req = c.NewRequest(op, &a, out)
+  out := &Response{}
+  req := c.NewRequest(op, &a, out)
+  if err := req.Send(); err != nil {
+    req.Error = err
+    return nil, err
+  }
   c.GetLogger().Debug("accounts-api: create() executing")
-  return
+  return &out.Data, nil
 }
 
-func (c *Service) delete(id string, version int) (req *transport.Request) {
+func (c *Service) delete(id string, version int) error {
   c.GetLogger().Debug("accounts-api: delete() executing")
   op := &transport.Operation{
     Name:       name,
@@ -102,7 +119,11 @@ func (c *Service) delete(id string, version int) (req *transport.Request) {
     HTTPPath:   fmt.Sprintf("/organisation/accounts/%s?version=%d", id, version),
   }
 
-  req = c.NewRequest(op, nil, nil)
-  c.GetLogger().Debug("accounts-api: delete() executing")
-  return
+  req := c.NewRequest(op, nil, nil)
+  if err := req.Send(); err != nil {
+    req.Error = err
+    return err
+  }
+  c.GetLogger().Debug("accounts-api: delete() executed")
+  return nil
 }
