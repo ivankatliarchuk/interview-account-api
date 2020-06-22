@@ -29,19 +29,42 @@ in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organ
 
 <!-- START makefile-doc -->
 ```
-$ make help 
+$ make help
 services                       Run services
 e2e-tests                      Integration tests
 unit-tests                     Run tests
 build                          Tidy Up
 lint                           Run linters
-validate                       Validate files with pre-commit hooks 
+validate                       Validate files with pre-commit hooks
 ```
 <!-- END makefile-doc -->
 
 # Technical decisions
 
+- Started with Health service, to:
+    - Build up a project skeleton
+    - Create a transport intefrace, without diving deep into functional implementation
+- Investigate API over Postmat,Curl and Swagger
+    - Minimum requirements for `Create`, `Fetch` and `Delete`
+    - Get the understanding on Pagination flow
+- Client library has 3
+- Currently there is no aggregator. The library can be used us a plugin e.g. where every package has its own responsibility `accounts`, `direct-debits`, `mandates` and etc.  Where each plugin exposes an implementation for a specific service.
+- The flow is logged end-to-end
+- For code styling used `golangci-lint`
 
+![Request Flow](./request-flow.jpg)
+
+# TODO
+
+- Create Attribytes in more sophisticated way
+- Request Flow Validator
+- Response Validator
+- Run tests on Docker
+- Handle errors in single dedicated place
+- Environment Variables for some values
+- Circuit Breaker
+- Retries & Throttling
+- Telemetry
 
 ### Should
 - Client library should be written in Go
