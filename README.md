@@ -1,5 +1,20 @@
 # Form3 Take Home Exercise
 
+- [Form3 Take Home Exercise](#form3-take-home-exercise)
+  * [Instructions](#instructions)
+  * [Project Structure](#project-structure)
+  * [How To Run](#how-to-run)
+  * [Awailable Commands](#awailable-commands)
+- [Technical decisions](#technical-decisions)
+- [TODO](#todo)
+    + [Should](#should)
+      - [Docker-compose](#docker-compose)
+    + [Please don't](#please-don-t)
+  * [How to submit your exercise](#how-to-submit-your-exercise)
+  * [License](#license)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 ## Instructions
 This exercise has been designed to be completed in 4-8 hours. The goal of this exercise is to write a client library
 in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organisation-accounts) service.
@@ -25,17 +40,36 @@ in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organ
     └── scripts
 ```
 
+## How To Run
+
+```
+    $ make lint
+    $ make docker-build
+    $ make services-up
+    $ make unit-tests
+    $ make e2e-tests
+    $ make services-down
+```
+
+Integrate with `docker-compose`
+
+```
+TODO
+```
+
 ## Awailable Commands
 
 <!-- START makefile-doc -->
 ```
-$ make help
-services                       Run services
+$ make help 
+services-up                    Run services
+services-down                  Run services
 e2e-tests                      Integration tests
 unit-tests                     Run tests
-build                          Tidy Up
 lint                           Run linters
 validate                       Validate files with pre-commit hooks
+docker-build                   Build docker container
+docker-run                     Run commands in docker container e.g. make docker-run COMMAND='make go-tidy' 
 ```
 <!-- END makefile-doc -->
 
@@ -49,6 +83,8 @@ validate                       Validate files with pre-commit hooks
     - Get the understanding on Pagination flow
 - Client library has 3
 - Currently there is no aggregator. The library can be used us a plugin e.g. where every package has its own responsibility `accounts`, `direct-debits`, `mandates` and etc.  Where each plugin exposes an implementation for a specific service.
+- At the mean time only happy path is implmented
+- E2E tests covering  the core functionality
 - The flow is logged end-to-end
 - For code styling used `golangci-lint`
 

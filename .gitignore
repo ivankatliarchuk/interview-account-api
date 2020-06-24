@@ -142,3 +142,4 @@ modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,git,go,jetbrains+all
 
 e2e.coverprofile
+docker-buld
