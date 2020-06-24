@@ -64,4 +64,9 @@ e2e-tests-container: export COMMAND='make e2e-tests'
 e2e-tests-container: docker-run
 	@echo "go unit-tests SDK packages done"
 
+cover:
+	@go test -race -coverprofile=coverage.txt interview-accountapi/cmd/...
+	@go tool cover -html=coverage.txt
+	@rm coverage.txt
+
 .PHONE: docs help hooks validate run lint docker-build docker-run
