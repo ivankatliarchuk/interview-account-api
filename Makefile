@@ -48,10 +48,20 @@ validate: ## Validate files with pre-commit hooks
 
 docker-build: ## Build docker container
 	@docker build -t $(IMAGE):$(TAG) -t $(IMAGE):latest -f Dockerfile .
-	@docker images -q $(IMAGE):$(TAG) > $@
+	@docker images -q $(IMAGE):$(TAG)
 
 docker-run: ## Run commands in docker container e.g. make docker-run COMMAND='make go-tidy'
 docker-run: docker-build
-	docker run -it --rm -v $$(pwd):/app -w /app $(IMAGE):$(TAG) $(COMMAND)
+	docker run --rm -it -v $$(pwd):/src -w /src $(IMAGE):$(TAG) $(COMMAND)
+
+unit-tests-container: ## Unit tests in the container
+unit-tests-container: export COMMAND='make unit-tests'
+unit-tests-container: docker-run
+	@echo "go unit-tests SDK packages done"
+
+e2e-tests-container: ## e2e tests in the container. Note: in progress
+e2e-tests-container: export COMMAND='make e2e-tests'
+e2e-tests-container: docker-run
+	@echo "go unit-tests SDK packages done"
 
 .PHONE: docs help hooks validate run lint docker-build docker-run

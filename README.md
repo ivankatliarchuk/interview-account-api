@@ -46,7 +46,7 @@ in Go to access our fake [account API](http://api-docs.form3.tech/api.html#organ
     $ make lint
     $ make docker-build
     $ make services-up
-    $ make unit-tests
+    $ make unit-tests-container
     $ make e2e-tests
     $ make services-down
 ```
@@ -69,7 +69,9 @@ unit-tests                     Run tests
 lint                           Run linters
 validate                       Validate files with pre-commit hooks
 docker-build                   Build docker container
-docker-run                     Run commands in docker container e.g. make docker-run COMMAND='make go-tidy' 
+docker-run                     Run commands in docker container e.g. make docker-run COMMAND='make go-tidy'
+unit-tests-container           Unit tests in the container
+e2e-tests-container            e2e tests in the container. Note: in progress 
 ```
 <!-- END makefile-doc -->
 

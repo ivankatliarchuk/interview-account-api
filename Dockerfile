@@ -7,11 +7,12 @@ ENV GO11MODULE on
 RUN apk add -U --no-cache bash=5.0.17-r0 make=4.3-r0 git=2.26.2-r0 \
     gcc=9.3.0-r2 g++=9.3.0-r2
 
-RUN mkdir /app
-COPY go.* /app/
-WORKDIR /app
+RUN mkdir /src
+COPY go.* /src/
+WORKDIR /src
 
-RUN go mod download
+RUN go mod download && \
+    go get -u github.com/onsi/ginkgo/ginkgo
 
 ENTRYPOINT [ "/bin/bash", "-c"]
 CMD ["/bin/bash"]
